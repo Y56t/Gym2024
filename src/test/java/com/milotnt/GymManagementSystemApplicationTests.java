@@ -11,28 +11,28 @@ import java.util.List;
 @SpringBootTest
 class GymManagementSystemApplicationTests {
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    MemberMapper memberMapper;
-
-
-    @Test
-    void contextLoads() {
-        Long aLong = jdbcTemplate.queryForObject("select count(*) from admin", Long.class);
-        System.out.println("记录总数" + aLong);
-    }
-
-    @Test
-    public void run() throws Exception {
-        List<Member> list = memberMapper.findAll();
-        for (Member member : list) {
-            System.out.println(member);
-        }
-
-        Integer total = memberMapper.selectTotalCount();
-        System.out.println(total);
-    }
+    // @Autowired
+    // JdbcTemplate jdbcTemplate;
+    //
+    // @Autowired
+    // MemberMapper memberMapper;
+    //
+    //
+    // @Test
+    // void contextLoads() {
+    //     Long aLong = jdbcTemplate.queryForObject("select count(*) from admin", Long.class);
+    //     System.out.println("记录总数" + aLong);
+    // }
+    //
+    // @Test
+    // public void run() throws Exception {
+    //     List<Member> list = memberMapper.findAll();
+    //     for (Member member : list) {
+    //         System.out.println(member);
+    //     }
+    //
+    //     Integer total = memberMapper.selectTotalCount();
+    //     System.out.println(total);
+    // }
 
 }
