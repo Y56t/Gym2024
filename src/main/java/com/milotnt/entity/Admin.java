@@ -32,7 +32,6 @@ public class Admin implements Serializable {
     private Integer adminAccount;
 
     @ApiModelProperty(value = "管理员密码")
-    @TableField("admin_password")
     private String adminPassword;
 
 
