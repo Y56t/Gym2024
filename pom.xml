@@ -28,14 +28,10 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Spring整合MyBatis     -->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>3.0.3</version>
-        </dependency>
+
 
         <!-- MyBatis Plus 启动器 -->
         <dependency>
