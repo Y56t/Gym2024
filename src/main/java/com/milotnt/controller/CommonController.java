@@ -45,7 +45,14 @@ public class CommonController {
     public String toAdminMain(){
         return "adminMain.html";
     }
-
+    /**
+     * 1.跳转用户主页面
+     * @return
+     */
+    @RequestMapping("/userCommon")
+    public String toUserCommon(){
+        return "userCommon.html";
+    }
 
 
 
