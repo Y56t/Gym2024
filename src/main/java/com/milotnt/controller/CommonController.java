@@ -53,9 +53,4 @@ public class CommonController {
     public String toUserCommon(){
         return "userCommon.html";
     }
-
-
-
-
-
 }

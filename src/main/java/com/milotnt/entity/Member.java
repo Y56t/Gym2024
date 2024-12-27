@@ -73,5 +73,4 @@ public class Member implements Serializable {
     @TableField("card_next_class")
     private Integer cardNextClass;
 
-
 }
