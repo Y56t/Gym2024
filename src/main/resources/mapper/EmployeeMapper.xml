@@ -2,4 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.milotnt.mapper.EmployeeMapper">
 
+    <select id="selectAll" resultType="com.milotnt.entity.Employee">
+        SELECT *
+        FROM employee
+    </select>
+
+    <delete id="delete" parameterType="com.milotnt.entity.Employee">
+        DELETE
+        FROM employee
+        WHERE employee_account = #{employeeAccount}
+    </delete>
+
+    <insert id="add" parameterType="com.milotnt.entity.Employee">
+        INSERT INTO employee (employee_account, employee_name, employee_gender,
+                              employee_age, entry_time, staff, employee_message)
+        VALUES (#{employeeAccount}, #{employeeName}, #{employeeGender},
+                #{employeeAge}, #{entryTime}, #{staff}, #{employeeMessage})
+    </insert>
+
+
+    <update id="update" parameterType="com.milotnt.entity.Employee">
+        UPDATE employee
+        SET employee_account = #{employeeAccount},
+            employee_name    = #{employeeName},
+            employee_gender  = #{employeeGender},
+            employee_age     = #{employeeAge},
+            staff            = #{staff},
+            employee_message=#{employeeMessage}
+        WHERE employee_account = #{employeeAccount}
+    </update>
+
+
 </mapper>

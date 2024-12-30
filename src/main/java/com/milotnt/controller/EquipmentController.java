@@ -16,5 +16,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/equipment")
 public class EquipmentController {
-
 }
