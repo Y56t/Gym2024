@@ -19,38 +19,15 @@ import java.util.List;
 @Controller
 public class CommonController {
 
-    /**
-     * 1.跳转用户页面
-     * @return
-     */
-    @RequestMapping("/login")
-    public String toLoginPage(){
-        return "userLogin.html";
+    //主页、跳转管理员登录页面
+    @RequestMapping("/")
+    public String toAdminLogin() {
+        return "adminLogin";
     }
 
-    /**
-     * 1.跳转管理员登录页面
-     * @return
-     */
-    @RequestMapping("/adminLogin")
-    public String toAdminLogin(){
-        return "adminLogin.html";
-    }
-
-    /**
-     * 1.跳转管理员主页面
-     * @return
-     */
-    @RequestMapping("/adminMain")
-    public String toAdminMain(){
-        return "adminMain.html";
-    }
-    /**
-     * 1.跳转用户主页面
-     * @return
-     */
-    @RequestMapping("/userCommon")
-    public String toUserCommon(){
-        return "userCommon.html";
+    //跳转会员登录页面
+    @RequestMapping("/toUserLogin")
+    public String toUserLogin() {
+        return "userLogin";
     }
 }

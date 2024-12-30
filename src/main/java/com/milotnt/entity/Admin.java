@@ -34,5 +34,4 @@ public class Admin implements Serializable {
     @ApiModelProperty(value = "管理员密码")
     private String adminPassword;
 
-
 }
