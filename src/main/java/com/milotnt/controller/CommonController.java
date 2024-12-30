@@ -30,9 +30,4 @@ public class CommonController {
     public String toUserLogin() {
         return "userLogin";
     }
-
-
-
-
-
 }
