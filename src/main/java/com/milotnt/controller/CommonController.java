@@ -30,4 +30,8 @@ public class CommonController {
     public String toUserLogin() {
         return "userLogin";
     }
+    @RequestMapping("/toadminMain")
+    public String toadminMain() {
+        return "adminMain";
+    }
 }
