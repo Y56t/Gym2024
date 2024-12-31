@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMemberService extends IService<Member> {
     Member userLogin(Member member);
+
+    Member getCurrentMember();
 }
