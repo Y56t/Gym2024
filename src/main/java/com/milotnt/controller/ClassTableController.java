@@ -129,6 +129,8 @@ public String toUserInformation(Model model) {
         return "redirect:/class/selClass"; // 删除后重定向到查询页面
 
     }
+
+
     }
 
 
