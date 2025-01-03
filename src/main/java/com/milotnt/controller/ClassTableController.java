@@ -121,7 +121,20 @@ public String toUserInformation(Model model) {
         return "selectClassOrder";
     }
 
-}
+    // 删除课程并查询相关订单
+
+    @GetMapping("delClass")
+    public String deleteClass(@RequestParam("classId") Integer classId) {
+        classService.removeById(classId); // 使用 MyBatis-Plus 删除记录
+        return "redirect:/class/selClass"; // 删除后重定向到查询页面
+
+    }
+
+
+    }
+
+
+
 
 
 
