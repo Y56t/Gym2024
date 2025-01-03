@@ -18,38 +18,37 @@ public class UserLoginController {
     @Autowired
     private IMemberService memberService;
 
-    // 显示登录页面
-    @GetMapping({"/", "/userLogin"})
+    @GetMapping("/userLogin")
     public String showLoginPage() {
         return "userLogin";
     }
 
-    // 处理登录请求
+    // 处理会员登录请求
     @PostMapping("/userLogin")
     public String userLogin(Member member, Model model, HttpSession session) {
-        log.info("接收到登录请求，账号：{}", member.getMemberAccount());
+        log.info("接收到会员登录请求，账号：{}", member.getMemberAccount());
 
         try {
             Member loginMember = memberService.userLogin(member);
             if (loginMember != null) {
-                log.info("用户登录成功：{}", loginMember.getMemberAccount());
+                log.info("会员登录成功：{}", loginMember.getMemberAccount());
                 model.addAttribute("member", loginMember);
                 session.setAttribute("user", loginMember);
-                return "userMain";
+                return "redirect:/userMain";  // 使用重定向避免表单重复提交
             }
 
-            log.warn("登录失败，账号或密码错误：{}", member.getMemberAccount());
+            log.warn("会员登录失败，账号或密码错误：{}", member.getMemberAccount());
             model.addAttribute("msg", "您输入的账号或密码有误，请重新输入!");
             return "userLogin";
 
         } catch (Exception e) {
-            log.error("登录过程发生错误: ", e);
+            log.error("会员登录过程发生错误: ", e);
             model.addAttribute("msg", "系统错误，请稍后重试!");
             return "userLogin";
         }
     }
 
-    // 用户主页
+    // 会员主页
     @GetMapping("/userMain")
     public String userMain(HttpSession session, Model model) {
         Member member = (Member) session.getAttribute("user");
@@ -58,5 +57,12 @@ public class UserLoginController {
         }
         model.addAttribute("member", member);
         return "userMain";
+    }
+
+    // 会员退出登录
+    @GetMapping("/userLogout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:/userLogin";
     }
 }

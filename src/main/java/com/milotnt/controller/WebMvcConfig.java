@@ -7,14 +7,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-    //
-    // @Autowired
-    // private LoginInterceptor loginInterceptor;
 
-//     @Override
-//     public void addInterceptors(InterceptorRegistry registry) {
-//         registry.addInterceptor(loginInterceptor)
-//                 // .addPathPatterns("/**")
-//                 // .excludePathPatterns("/userLogin", "/", "/css/**", "/js/**", "/img/**");
-//     }
+    @Autowired
+    private LoginInterceptor loginInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loginInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/userLogin",
+                        "/adminLogin",
+                        "/",
+                        "/css/**",
+                        "/js/**",
+                        "/img/**"
+                );
+    }
 }
