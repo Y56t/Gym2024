@@ -30,5 +30,8 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
      */
     List<Employee> selectAll();
 
+    //根据员工账号查询员工
+    List<Employee> selectByEmployeeAccount(Integer employeeAccount);
+
 
 }

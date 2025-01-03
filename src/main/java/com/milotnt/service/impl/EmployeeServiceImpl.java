@@ -18,7 +18,7 @@ import java.util.List;
  * @since 2024-12-23
  */
 @Service
- public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements IEmployeeService {
+public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements IEmployeeService {
     @Autowired
     private EmployeeMapper employeeMapper;
     //新增
@@ -46,5 +46,10 @@ import java.util.List;
         }else {
             return null;
         }
+    }
+
+    @Override
+    public List<Employee> selectByEmployeeAccount(Integer employeeAccount) {
+        return employeeMapper.selectByEmployeeAccount(employeeAccount);
     }
 }
