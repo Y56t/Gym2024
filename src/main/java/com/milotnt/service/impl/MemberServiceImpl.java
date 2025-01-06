@@ -57,4 +57,16 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
                         .eq(Member::getMemberAccount, memberAccount)
         );
     }
+    @Override
+    public Member selectByAccount(String memberAccount) {
+        return this.lambdaQuery()
+                .eq(Member::getMemberAccount, memberAccount)
+                .one();
+    }
+
+    @Override
+    public boolean updateMember(Member member) {
+        return this.updateById(member);
+    }
 }
+

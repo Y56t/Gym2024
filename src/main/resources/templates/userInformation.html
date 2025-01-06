@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="userCommon::common-header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+    <th:block th:replace="userCommon :: common-header"></th:block>
+</head>
 <body class="sb-nav-fixed">
-<nav th:replace="userCommon::common-navbar"></nav>
+<nav th:replace="userCommon :: common-navbar"></nav>
+
 <div id="layoutSidenav">
-    <div th:replace="userCommon::common-sidenav"></div>
+    <div th:replace="userCommon :: common-sidenav"></div>
 
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
                 <h1 class="mt-4">个人信息</h1>
+
+                <!-- 显示成功提示消息 -->
+                <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <span th:text="${message}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
 
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a th:href="@{/toUserMain}">主页</a></li>
@@ -17,56 +28,62 @@
                 </ol>
 
                 <div class="card mb-4">
+                    <!-- 显示更新后的个人信息 -->
                     <table class="table table-hover">
                         <tr>
-                            <td text-align="center">会员账号/卡号：</td>
-                            <td th:text="${member.memberAccount}"></td>
+                            <td>会员账号/卡号：</td>
+                            <td th:text="${member?.memberAccount}"></td>
                         </tr>
                         <tr>
-                            <td text-align="center">姓名：</td>
-                            <td th:text="${member.memberName}"></td>
+                            <td>姓名：</td>
+                            <td th:text="${member?.memberName}"></td>
                         </tr>
                         <tr>
-                            <td text-align="center">性别：</td>
-                            <td th:text="${member.memberGender}"></td>
+                            <td>性别：</td>
+                            <td th:text="${member?.memberGender}"></td>
                         </tr>
                         <tr>
-                            <td text-align="center">年龄：</td>
-                            <td th:text="${member.memberAge}"></td>
+                            <td>年龄：</td>
+                            <td th:text="${member?.memberAge}"></td>
                         </tr>
                         <tr>
-                            <td text-align="center">联系方式：</td>
-                            <td th:text="${member.memberPhone}"></td>
+                            <td>联系方式：</td>
+                            <td th:text="${member?.memberPhone}"></td>
                         </tr>
                         <tr>
-                            <td text-align="center">身高：</td>
-                            <td th:text="${member.memberHeight}"></td>
+                            <td>身高：</td>
+                            <td th:text="${member?.memberHeight}"></td>
                         </tr>
                         <tr>
-                            <td text-align="center">体重：</td>
-                            <td th:text="${member.memberWeight}"></td>
+                            <td>体重：</td>
+                            <td th:text="${member?.memberWeight}"></td>
                         </tr>
                         <tr>
-                            <td text-align="center">办卡时间：</td>
-                            <td th:text="${member.cardTime}"></td>
+                            <td>办卡时间：</td>
+                            <td th:text="${member?.cardTime}"></td>
                         </tr>
                         <tr>
-                            <td text-align="center">剩余课时：</td>
-                            <td th:text="${member.cardNextClass}"></td>
+                            <td>剩余课时：</td>
+                            <td th:text="${member?.cardNextClass}"></td>
                         </tr>
                     </table>
                     <div style="text-align:center;margin-bottom:15px">
-                        <a th:href="@{/user/toUpdateInfo}">
-                            <input type="button" class="btn btn-outline-primary" value="编辑个人信息">
-                        </a>
+                        <a th:href="@{/user/toUpdateInfo}" class="btn btn-outline-primary">编辑个人信息</a>
                     </div>
                 </div>
             </div>
         </main>
-        <footer th:replace="userCommon::common-footer"></footer>
+        <footer th:replace="userCommon :: common-footer"></footer>
     </div>
 </div>
 
-<div th:include="userCommon::common-scripts"></div>
+<th:block th:replace="userCommon :: common-scripts"></th:block>
+
+<!-- 添加自动隐藏提示消息的脚本 -->
+<script th:if="${message}">
+    setTimeout(function() {
+        $('.alert').alert('close');
+    }, 3000); // 3秒后自动关闭提示
+</script>
 </body>
 </html>

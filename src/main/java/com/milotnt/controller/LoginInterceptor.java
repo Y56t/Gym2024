@@ -15,17 +15,26 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         // 登录相关路径放行
         if(requestURI.contains("/userLogin") ||
+                requestURI.contains("/adminLogin") ||
                 requestURI.contains("/css/") ||
                 requestURI.contains("/js/") ||
                 requestURI.contains("/img/")) {
             return true;
         }
 
-        // 检查登录状态
-        Object user = request.getSession().getAttribute("user");
-        if(user == null) {
-            response.sendRedirect("/userLogin");
-            return false;
+        // 检查登录状态,区分管理员和用户
+        if(requestURI.startsWith("/admin")) {
+            Object admin = request.getSession().getAttribute("admin");
+            if(admin == null) {
+                response.sendRedirect("/adminLogin");
+                return false;
+            }
+        } else {
+            Object user = request.getSession().getAttribute("user");
+            if(user == null) {
+                response.sendRedirect("/userLogin");
+                return false;
+            }
         }
         return true;
     }
