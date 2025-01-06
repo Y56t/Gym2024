@@ -61,19 +61,11 @@ public class ClassTableController {
         // 跳转到新增管理页面
         return "/addClass";
 }
+
+
 /**
  * 新增
  */
-
-@GetMapping("/toUserInfo")
-public String toUserInformation(Model model) {
-    // 需要从数据库或其他地方获取会员信息
-    Member member = iMemberService.getCurrentMember();  // 假设有这样的服务方法
-    model.addAttribute("member", member);
-    return "userInformation";
-}
-
-
     @PostMapping("/addClass")
     public String addEmployee(@ModelAttribute ClassTable classTable, RedirectAttributes redirectAttributes) {
         try {
