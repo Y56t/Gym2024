@@ -13,25 +13,5 @@ import java.util.List;
  * @since 2024-12-23
  */
 public interface EmployeeMapper extends BaseMapper<Employee> {
-    /**
-     * 新增功能
-     */
-    Boolean add(Employee employee);
-    /**
-     * 删除功能
-     */
-    Boolean delete(int employeeAccount);
-    /**
-     * 根据员工账号修改员工信息功能
-     */
-    Boolean update(Employee employee);
-    /**
-     * 查询功能
-     */
-    List<Employee> selectAll();
-
-    //根据员工账号查询员工
-    List<Employee> selectByEmployeeAccount(Integer employeeAccount);
-
 
 }
