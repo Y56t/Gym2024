@@ -103,6 +103,7 @@
             <artifactId>swagger-annotations</artifactId>
             <version>1.5.22</version>
         </dependency>
+
     </dependencies>
 
     <build>

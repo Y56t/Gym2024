@@ -32,5 +32,10 @@
         WHERE employee_account = #{employeeAccount}
     </update>
 
+    <select id="selectByEmployeeAccount" parameterType="java.lang.Integer" resultType="employee">
+        SELECT *
+        FROM employee
+        WHERE employee_account = #{employeeAccount}
+    </select>
 
 </mapper>
