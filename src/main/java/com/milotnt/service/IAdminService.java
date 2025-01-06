@@ -13,6 +13,5 @@ import com.milotnt.entity.Member;
  * @since 2024-12-23
  */
 public interface IAdminService extends IService<Admin> {
-    Admin adminLogin(Admin admin);
 
 }

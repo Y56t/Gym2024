@@ -12,7 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-12-23
  */
 public interface IMemberService extends IService<Member> {
-    Member userLogin(Member member);
 
     Member getCurrentMember();
     // 根据账号查询会员

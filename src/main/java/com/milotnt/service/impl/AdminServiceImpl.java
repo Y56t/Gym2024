@@ -20,20 +20,4 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements IAdminService {
-
-    @Override
-    public Admin adminLogin(Admin admin) {
-        try {
-            log.info("开始执行登录查询，账号：{}",admin.getAdminAccount());
-
-            LambdaQueryWrapper<Admin> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(Admin::getAdminAccount, admin.getAdminAccount())
-                    .eq(Admin::getAdminPassword, admin.getAdminPassword());
-
-            return this.getOne(queryWrapper);
-        } catch (Exception e) {
-            log.error("登录查询发生错误: ", e);
-            throw e;
-        }
-    }
 }

@@ -1,7 +1,8 @@
 package com.milotnt.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.milotnt.entity.Member;
-import com.milotnt.service.IMemberService;
+import com.milotnt.mapper.MemberMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +17,9 @@ import javax.servlet.http.HttpSession;
 public class UserLoginController {
 
     @Autowired
-    private IMemberService memberService;
+    private MemberMapper memberMapper;
 
+    // 显示会员登录页面
     @GetMapping("/userLogin")
     public String showLoginPage() {
         return "userLogin";
@@ -26,15 +28,19 @@ public class UserLoginController {
     // 处理会员登录请求
     @PostMapping("/userLogin")
     public String userLogin(Member member, Model model, HttpSession session) {
-        log.info("接收到会员登录请求，账号：{}", member.getMemberAccount());
-
         try {
-            Member loginMember = memberService.userLogin(member);
+            log.info("接收到会员登录请求，账号：{}", member.getMemberAccount());
+
+            LambdaQueryWrapper<Member> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Member::getMemberAccount, member.getMemberAccount())
+                    .eq(Member::getMemberPassword, member.getMemberPassword());
+
+            Member loginMember = memberMapper.selectOne(queryWrapper);
+
             if (loginMember != null) {
                 log.info("会员登录成功：{}", loginMember.getMemberAccount());
-                model.addAttribute("member", loginMember);
                 session.setAttribute("user", loginMember);
-                return "redirect:/userMain";  // 使用重定向避免表单重复提交
+                return "redirect:/userMain";
             }
 
             log.warn("会员登录失败，账号或密码错误：{}", member.getMemberAccount());
