@@ -13,10 +13,4 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMemberService extends IService<Member> {
 
-    Member getCurrentMember();
-    // 根据账号查询会员
-    Member selectByAccount(String memberAccount);
-
-    // 更新会员信息
-    boolean updateMember(Member member);
 }

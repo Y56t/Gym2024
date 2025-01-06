@@ -174,7 +174,7 @@ public class MemberController {
     public String addMember( @ModelAttribute Member member,Model model){
         System.out.println(member);
         String generatedMemberAccount = generateMemberAccount(); // 生成会员账号的逻辑
-        member.setMemberAccount(Integer.valueOf(generatedMemberAccount));
+        member.setMemberAccount(String.valueOf(generatedMemberAccount));
         // 获取当前日期
         LocalDate currentDate = LocalDate.now();
         member.setCardTime(currentDate);
