@@ -52,7 +52,7 @@ public class Reception {
         if (memberService.updateMember(member)) {
             return "redirect:/user/toUserInfo";
         }
-        return "error";
+        return "userInformation";
     }
     /**
      * 跳转到课程报名页面
@@ -158,5 +158,17 @@ public class Reception {
             redirectAttributes.addFlashAttribute("error", "退课失败：" + e.getMessage());
             return "redirect:/user/toUserClass";
         }
+    }
+    /**
+     * 用户主页
+     */
+    @GetMapping("/userMain")
+    public String userMain(Model model, HttpSession session) {
+        Member member = (Member) session.getAttribute("user");
+        if (member == null) {
+            return "redirect:/userLogin";
+        }
+        model.addAttribute("member", member);
+        return "userMain";
     }
 }
