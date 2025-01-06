@@ -16,6 +16,10 @@
                     <li class="breadcrumb-item active">会员管理</li>
                 </ol>
 
+                <div th:if="${message}" class="alert alert-success" role="alert">
+                    <span th:text="${message}"></span>
+                </div>
+
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>

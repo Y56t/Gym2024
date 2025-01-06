@@ -3,6 +3,8 @@ package com.milotnt.controller;
 
 import com.milotnt.entity.Employee;
 import com.milotnt.service.IEmployeeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -100,19 +102,23 @@ public class EmployeeController {
     }
 
     // 处理删除员工请求
-    @PostMapping("/deleteEmployee")
-    public String deleteEmployee(@RequestParam Integer employeeAccount, RedirectAttributes redirectAttributes) {
-        try {
-            Boolean success = employeeService.delete(employeeAccount);
-            if (success) {
-                redirectAttributes.addFlashAttribute("success", "员工删除成功");
-            } else {
-                redirectAttributes.addFlashAttribute("error", "员工删除失败");
-            }
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "删除失败：" + e.getMessage());
-        }
-        return "redirect:/employee/selEmployee";
+//    @PostMapping("/deleteEmployee")
+//    public String deleteEmployee(@RequestParam Integer employeeAccount, RedirectAttributes redirectAttributes) {
+//        try {
+//            Boolean success = employeeService.delete(employeeAccount);
+//            if (success) {
+//                redirectAttributes.addFlashAttribute("success", "员工删除成功");
+//            } else {
+//                redirectAttributes.addFlashAttribute("error", "员工删除失败");
+//            }
+//        } catch (Exception e) {
+//            redirectAttributes.addFlashAttribute("error", "删除失败：" + e.getMessage());
+//        }
+//        return "redirect:/employee/selEmployee";  // 确保重定向路径正确
+//    }
+    @RequestMapping("/delEmployee")
+    public String deleteEmployee(Integer employeeAccount) {
+        employeeService.delete(employeeAccount);
+        return "redirect:selEmployee";
     }
-
 }
