@@ -1,6 +1,7 @@
 package com.milotnt.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.milotnt.entity.ClassOrder;
 import com.milotnt.entity.ClassTable;
 import com.milotnt.entity.Member;
@@ -8,6 +9,7 @@ import com.milotnt.mapper.ClassOrderMapper;
 import com.milotnt.service.IClassOrderService;
 import com.milotnt.service.IClassTableService;
 import com.milotnt.service.IMemberService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import java.util.List;
-
+@Slf4j
 @Controller
 @RequestMapping("/user")
 public class Reception {
@@ -28,31 +30,120 @@ public class Reception {
     private IClassOrderService classOrderService;
     @Autowired
     private ClassOrderMapper classOrderMapper;
-    // 跳转到个人信息页面
+
+    /**
+     * 用户主页，显示个人信息
+     */
+    @GetMapping("/userMain")
+    public String userMain(Model model, HttpSession session) {
+        try {
+            // 从 session 获取登录会员信息
+            Member loginMember = (Member) session.getAttribute("user");
+            if (loginMember == null) {
+                return "redirect:/login";
+            }
+
+            // 根据会员账号查询完整信息
+            QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("member_account", loginMember.getMemberAccount());
+            Member member = memberService.getOne(queryWrapper);
+
+            // 将会员信息添加到 model
+            model.addAttribute("member", member);
+            return "userMain";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/login";
+        }
+    }
+
+    /**
+     * 显示个人信息详情
+     */
     @GetMapping("/toUserInfo")
     public String toUserInfo(Model model, HttpSession session) {
-        String memberAccount = (String) session.getAttribute("memberAccount");
-        Member member = memberService.selectByAccount(memberAccount);
-        model.addAttribute("member", member);
-        return "userInformation";
+        try {
+            // 从 session 获取登录会员信息
+            Member loginMember = (Member) session.getAttribute("user");
+            if (loginMember == null) {
+                return "redirect:/login";
+            }
+
+            // 使用相同的查询逻辑获取会员信息
+            QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("member_account", loginMember.getMemberAccount());
+            Member member = memberService.getOne(queryWrapper);
+
+            model.addAttribute("member", member);
+            return "userInformation";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "获取个人信息失败");
+            return "error";
+        }
     }
 
-    // 跳转到修改个人信息页面
+    /**
+     * 跳转到修改个人信息页面
+     */
     @GetMapping("/toUpdateInfo")
     public String toUpdateInfo(Model model, HttpSession session) {
-        String memberAccount = (String) session.getAttribute("memberAccount");
-        Member member = memberService.selectByAccount(memberAccount);
-        model.addAttribute("member", member);
-        return "updateUserInformation";
+        try {
+            // 从 session 获取登录会员信息
+            Member loginMember = (Member) session.getAttribute("user");
+            if (loginMember == null) {
+                return "redirect:/login";
+            }
+
+            // 查询会员信息
+            Member member = memberService.getById(loginMember.getMemberAccount());
+            if (member != null) {
+                model.addAttribute("member", member);
+                return "updateUserInformation";  // 修改这里，与文件名保持一致
+            } else {
+                model.addAttribute("error", "未找到会员信息");
+                return "error";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "获取会员信息失败：" + e.getMessage());
+            return "error";
+        }
     }
 
-    // 处理更新个人信息的请求
+    /**
+     * 处理修改个人信息的请求
+     */
     @PostMapping("/updateInfo")
-    public String updateInfo(Member member) {
-        if (memberService.updateMember(member)) {
+    public String updateInfo(Member member, HttpSession session, RedirectAttributes redirectAttributes) {
+        try {
+            Member loginMember = (Member) session.getAttribute("user");
+            if (loginMember == null) {
+                return "redirect:/login";
+            }
+
+            // 设置不能修改的字段
+            member.setMemberAccount(loginMember.getMemberAccount());
+            member.setMemberPassword(loginMember.getMemberPassword());
+            member.setCardTime(loginMember.getCardTime());
+            member.setCardNextClass(loginMember.getCardNextClass());
+
+            // 更新会员信息
+            boolean success = memberService.updateById(member);
+            if (success) {
+                // 更新 session 中的会员信息
+                session.setAttribute("user", member);
+                redirectAttributes.addFlashAttribute("success", "个人信息修改成功！");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "修改失败，请重试！");
+            }
+
             return "redirect:/user/toUserInfo";
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "修改失败：" + e.getMessage());
+            return "redirect:/user/toUpdateInfo";
         }
-        return "userInformation";
     }
     /**
      * 跳转到课程报名页面
@@ -162,13 +253,5 @@ public class Reception {
     /**
      * 用户主页
      */
-    @GetMapping("/userMain")
-    public String userMain(Model model, HttpSession session) {
-        Member member = (Member) session.getAttribute("user");
-        if (member == null) {
-            return "redirect:/userLogin";
-        }
-        model.addAttribute("member", member);
-        return "userMain";
-    }
+
 }
