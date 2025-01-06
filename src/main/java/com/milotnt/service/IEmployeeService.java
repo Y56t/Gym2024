@@ -30,4 +30,9 @@ public interface IEmployeeService extends IService<Employee> {
      * 查询功能
      */
     List<Employee> selectAll();
+
+    //根据员工账号查询员工
+    List<Employee> selectByEmployeeAccount(Integer employeeAccount);
+
+
 }
