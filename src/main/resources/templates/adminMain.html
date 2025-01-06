@@ -19,7 +19,7 @@
                         <div class="card bg-primary text-white mb-4">
                             <div class="card-body">健身房总人数</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <span class="small text-white" th:text="${humanTotal} + '人'"></span>
+                                <span class="small text-white" th:text="${humanTotal ?: 0} + '人'"></span>
                             </div>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                         <div class="card bg-warning text-white mb-4">
                             <div class="card-body">员工人数</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <span class="small text-white" th:text="${employeeTotal} + '人'"></span>
+                                <span class="small text-white" th:text="${employeeTotal ?: 0} + '人'"></span>
                             </div>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                         <div class="card bg-success text-white mb-4">
                             <div class="card-body">会员人数</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <span class="small text-white" th:text="${memberTotal} + '人'"></span>
+                                <span class="small text-white" th:text="${memberTotal ?: 0} + '人'"></span>
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                         <div class="card bg-danger text-white mb-4">
                             <div class="card-body">器材数</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <span class="small text-white" th:text="${equipmentTotal} + '件'"></span>
+                                <span class="small text-white" th:text="${equipmentTotal ?: 0} + '件'"></span>
                             </div>
                         </div>
                     </div>

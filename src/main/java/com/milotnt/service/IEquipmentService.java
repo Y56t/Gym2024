@@ -32,5 +32,5 @@ public interface IEquipmentService extends IService<Equipment> {
     List<Equipment> selectByEquipmentId(Integer equipmentId);
 
     @Update("ALTER TABLE equipment AUTO_INCREMENT = (SELECT max_id FROM (SELECT MAX(equipment_id) + 1 as max_id FROM equipment) AS temp)")
-void resetAutoIncrement();
+    void resetAutoIncrement();
 }
