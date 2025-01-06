@@ -26,6 +26,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     public Boolean add(Employee employee) {
         return employeeMapper.add(employee);
     }
+
     //删除
     @Override
     public Boolean delete(int employeeAccount) {
