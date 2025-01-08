@@ -2,13 +2,24 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="adminCommon::common-header"></head>
 <body class="sb-nav-fixed">
+
 <nav th:replace="adminCommon::common-navbar"></nav>
 <div id="layoutSidenav">
     <div th:replace="adminCommon::common-sidenav"></div>
 
+
+
+
     <div id="layoutSidenav_content">
         <main>
-            <div class="container-fluid px-4">
+            <div th:if="${success}" class="alert alert-success">
+                <p th:text="${success}"></p>
+            </div>
+            <div th:if="${error}" class="alert alert-danger">
+                <p th:text="${error}"></p>
+            </div>
+
+            <div class="container-fluid px-4"  style="position: relative;">
                 <h1 class="mt-4">课程管理</h1>
 
                 <ol class="breadcrumb mb-4">
@@ -64,12 +75,73 @@
                 </div>
             </div>
         </main>
+
+
+        <div class="mb-4">
+            <input type="file" id="fileUpload" name="file" required accept=".xlsx" style="display: none;" onchange="handleFileUpload(this)" />
+            <button class="btn btn-outline-primary" onclick="document.getElementById('fileUpload').click();">上传文件</button>
+        </div>
+
+        <!-- 添加文件下载链接 -->
+        <div class="mb-4" style=" position: absolute;bottom: 20px ;right: 20px;">
+            <a th:href="@{/class/exportExcel}" class="btn btn-outline-success">下载文件</a>
+        </div>
         <footer th:replace="adminCommon::common-footer"></footer>
     </div>
 </div>
 
 <div th:include="adminCommon::common-scripts"></div>
 <script>
+    function handleFileUpload(input) {
+        const file = input.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            fetch('/class/upload', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data); // 显示后端返回的消息
+
+                    // loadClassList();
+                    window.location.href = '/class/selClass';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }
+
+
+    function loadClassList() {
+        fetch('/class/selClass')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应不正常');
+                }
+                return response.text();
+            })
+            .then(html => {
+                document.getElementById('classListContainer').innerHTML = html; // 更新课程列表
+            })
+            .catch(error => {
+                console.error('Error loading class list:', error);
+            });
+    }
+
+    setTimeout(function() {
+        var successMsg = document.querySelector('.alert-success');
+        var errorMsg = document.querySelector('.alert-danger');
+        if (successMsg) {
+            successMsg.style.display = 'none';
+        }
+        if (errorMsg) {
+            errorMsg.style.display = 'none';
+        }
+    }, 3000); // 3秒后消失
     function del() {
         let msg = "确定要删除吗？";
         if (confirm(msg) == true) {

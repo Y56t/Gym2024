@@ -29,7 +29,7 @@ public class ClassTable implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "课程id")
-    @TableId(value = "class_id", type = IdType.AUTO)
+    @TableId(value = "class_id", type = IdType.AUTO) // 确保使用自增策略
     private Integer classId;
 
     @ApiModelProperty(value = "课程名称")
