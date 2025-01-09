@@ -69,10 +69,10 @@ public class ClassTableController {
     @PostMapping("/addClass")
     public String addEmployee(@ModelAttribute ClassTable classTable, RedirectAttributes redirectAttributes) {
         try {
-
-            SecureRandom secureRandom = new SecureRandom();
-            String account = String.format("1010%05d", secureRandom.nextInt(100000));
-            classTable.setClassId(Integer.parseInt(account));
+//
+//            SecureRandom secureRandom = new SecureRandom();
+//            String account = String.format("1010%05d", secureRandom.nextInt(100000));
+//            classTable.setClassId(Integer.parseInt(account));
 
 
             classTable.setClassTime(LocalDate.now().format(DateTimeFormatter.ISO_DATE));

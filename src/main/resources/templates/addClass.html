@@ -23,29 +23,27 @@
                           onsubmit="return beforeSubmit(this)">
                         <table class="table table-hover">
                             <tr>
-                                <td text-align="center">编号：</td>
-                                <td><input type="text" class="form-control" placeholder="4位编号" name="classId"></td>
+                                <td style="text-align: center;">编号：</td>
+                                <td><input type="text" class="form-control" placeholder="编号" name="classId"></td>
                             </tr>
 
                             <tr>
-                                <td text-align="center">名称：</td>
-                                <td><input type="text" class="form-control" placeholder="课程名称" name="className">
+                                <td style="text-align: center;">名称：</td>
+                                <td><input type="text" class="form-control" placeholder="课程名称" name="className"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">时间：</td>
+                                <td>
+                                    <input type="datetime-local" class="form-control" placeholder="添加时间" name="classBegin" id="classBeginInput">
                                 </td>
                             </tr>
                             <tr>
-                                <td text-align="center">时间：</td>
-                                <td><input type="text" class="form-control" placeholder="xxxx年xx月xx日 00：00" name="classBegin">
-                                </td>
+                                <td style="text-align: center;">时长：</td>
+                                <td><input type="text" class="form-control" placeholder="xx分钟" name="classTime"></td>
                             </tr>
                             <tr>
-                                <td text-align="center">时长：</td>
-                                <td><input type="text" class="form-control" placeholder="xx分钟" name="classTime">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td text-align="center">教练：</td>
-                                <td><input type="text" class="form-control" placeholder="教练" name="coach">
-                                </td>
+                                <td style="text-align: center;">教练：</td>
+                                <td><input type="text" class="form-control" placeholder="教练" name="coach"></td>
                             </tr>
                         </table>
                         <div style="text-align:center;margin-top:20px;margin-bottom:20px">
@@ -84,6 +82,14 @@
         }
         return true;
     }
+
+    // 设置当前时间
+    function setCurrentTime() {
+        const now = new Date();
+        const formattedTime = now.toISOString().slice(0, 16); // 格式化为 YYYY-MM-DDTHH:MM
+        document.getElementById("classBeginInput").value = formattedTime;
+    }
+    window.onload = setCurrentTime; // 页面加载时设置时间
 </script>
 </body>
 </html>
