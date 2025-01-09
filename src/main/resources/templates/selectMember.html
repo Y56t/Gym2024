@@ -16,7 +16,7 @@
                     <li class="breadcrumb-item active">会员管理</li>
                 </ol>
 
-                <div th:if="${message}" class="alert alert-success" role="alert">
+                <div th:if="${message}" class="alert alert-success" role="alert" id="flashMessage">
                     <span th:text="${message}"></span>
                 </div>
 
@@ -92,6 +92,15 @@
             return false;
         }
     }
+    // 消息自动消失
+    window.onload = function() {
+        const messageElement = document.getElementById("flashMessage");
+        if (messageElement) {
+            setTimeout(function() {
+                messageElement.style.display = "none"; // 隐藏消息
+            }, 3000); // 3000毫秒 = 3秒
+        }
+    };
 </script>
 </body>
 </html>

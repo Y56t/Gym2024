@@ -104,12 +104,15 @@ public class MemberController {
      * @return
      */
     @RequestMapping("/updateMember")
-    public String updateMember(@ModelAttribute Member member,String memberAccount,Model model){
+    public String updateMember(@ModelAttribute Member member,String memberAccount,Model model,RedirectAttributes redirectAttributes){
         UpdateWrapper<Member> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("member_account", member.getMemberAccount());
-        memberService.update(member, updateWrapper);
-        model.addAttribute("message", "修改成功！");
-
+        boolean update = memberService.update(member, updateWrapper);
+        if (update) {
+            redirectAttributes.addFlashAttribute("message", "修改成功！");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "修改失败！");
+        }
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
 
         if (memberAccount != null && !memberAccount.trim().isEmpty()) {
@@ -126,12 +129,12 @@ public class MemberController {
         // 将结果添加到 Model
         model.addAttribute("memberList", memberList);
 
-        return "UpdateMember";
+        return "redirect:/member/selMember";
     }
 
 
     /**
-     * 5.主页跳转会员管理
+     * 6.主页跳转会员管理
      * @return
      */
     @RequestMapping("/selMember")
@@ -149,7 +152,7 @@ public class MemberController {
     }
 
     /**
-     * 2.会员管理跳转添加会员页面
+     * 7.会员管理跳转添加会员页面
      * @return
      */
     @GetMapping("/toAddMember")
@@ -161,27 +164,36 @@ public class MemberController {
 
     // 生成会员账号的逻辑
     public String generateMemberAccount() {
+        // 获取当前年份
+        String currentYear = String.valueOf(LocalDate.now().getYear()); // 获取当前年份的四位数
+
         Random random = new Random();
-    int randomNumber = random.nextInt(1000000000); // 生成一个 0 到 999999999 的随机数
-    return String.format("%09d", randomNumber); // 确保返回的字符串是九位数，不足的前面补零
+        int randomNumber = random.nextInt(100000); // 生成一个 0 到 99999 的随机数（5位数）
+
+        // 确保返回的字符串是九位数，前四位是当前年份，后五位是随机数
+        return currentYear + String.format("%05d", randomNumber); // 组合年份和随机数
     }
 
     /**
-     * 2.添加会员功能
+     * 8.添加会员功能
      * @return
      */
     @RequestMapping("/addMember")
-    public String addMember( @ModelAttribute Member member,Model model){
+    public String addMember( @ModelAttribute Member member,Model model,RedirectAttributes redirectAttributes){
         System.out.println(member);
         String generatedMemberAccount = generateMemberAccount(); // 生成会员账号的逻辑
-        member.setMemberAccount(String.valueOf(generatedMemberAccount));
+        member.setMemberAccount(generatedMemberAccount);
         // 获取当前日期
         LocalDate currentDate = LocalDate.now();
         member.setCardTime(currentDate);
         member.setCardNextClass(member.getCardClass());
 //        int remainingCardTime = currentDate - member.getCardTime();
-        memberService.save(member);
-        model.addAttribute("message", "添加成功！");
+        boolean save = memberService.save(member);
+        if (save) {
+            redirectAttributes.addFlashAttribute("message", "添加成功！");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "添加失败！");
+        }
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
         // 按办卡时间倒序排序
         queryWrapper.orderByDesc("card_time");
@@ -192,10 +204,13 @@ public class MemberController {
 
         // 将结果添加到 Model
         model.addAttribute("memberList", memberList);
-        return "addMember";
+        return "redirect:/member/selMember";
     }
 
-
+    /**
+     * 9.删除功能
+     * @return
+     */
     @RequestMapping("delMember")
     public String delMember(@RequestParam String memberAccount, Model model , RedirectAttributes redirectAttributes){
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
